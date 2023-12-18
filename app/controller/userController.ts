@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { User, UserModelInstance } from "../model/user";
 const salt: number = 10;
 import { generateToken } from "../helper/auth";
+import { UniqueConstraintError } from "sequelize";
 
 export const registrationController = async (
   req: Request,
@@ -10,25 +11,10 @@ export const registrationController = async (
 ): Promise<any> => {
   try {
     const {
-      email,
       password,
     }: {
-      email: string;
       password: string;
     } = req.body;
-
-    const userData: UserModelInstance | null = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (userData) {
-      return res.status(400).json({
-        status: "error",
-        code: 400,
-        message: "User already registered.",
-      });
-    }
 
     req.body.password = await bcrypt.hash(password, salt);
 
@@ -42,12 +28,20 @@ export const registrationController = async (
         message: "User registered successfully.",
       });
     }
-  } catch (error) {
-    return res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Please try again.",
-    });
+  } catch (error: any) {
+    if (error instanceof UniqueConstraintError) {
+      return res.status(400).json({
+        status: "error",
+        code: 400,
+        message: error.errors[0].message,
+      });      
+    } else {
+      return res.status(500).json({
+        status: "error",
+        code: 500,
+        message: "Please try again.",
+      });
+    }
   }
 };
 
