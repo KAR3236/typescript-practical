@@ -107,6 +107,85 @@
         }
       }
     },
+    "/api/user/activeUser/{id}": {
+      "put": {
+        "summary": "Admin can active user.",
+        "security": [
+          {
+            "CustomAuth": []
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 1
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": "true"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Active user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "success" },
+                "code": { "type": "number", "example": 202 },
+                "message": {
+                  "type": "string",
+                  "example": "User active successfully."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "error" },
+                "code": { "type": "number", "example": 404 },
+                "message": {
+                  "type": "string",
+                  "example": "Data not found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "error" },
+                "code": { "type": "number", "example": 500 },
+                "message": {
+                  "type": "string",
+                  "example": "Please try again."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/blog/addBlog": {
       "post": {
         "summary": "User and Admin can add blod.",

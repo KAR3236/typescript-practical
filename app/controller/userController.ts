@@ -34,7 +34,7 @@ export const registrationController = async (
         status: "error",
         code: 400,
         message: error.errors[0].message,
-      });      
+      });
     } else {
       return res.status(500).json({
         status: "error",
@@ -61,13 +61,14 @@ export const loginController = async (
     const userData: UserModelInstance | null = await User.findOne({
       where: {
         email,
+        status: true
       },
     });
     if (!userData) {
       return res.status(400).json({
         status: "error",
         code: 400,
-        message: "User is not registered.",
+        message: "User is not registered or User is not active.",
       });
     }
 
@@ -93,6 +94,45 @@ export const loginController = async (
         status: "error",
         code: 400,
         message: "User password does not matched.",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Please try again.",
+    });
+  }
+};
+
+export const activeUserController = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const {
+      status,
+    }: {
+      status: boolean;
+    } = req.body;
+
+    const [activeUserData]: number[] = await User.update({ status }, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (activeUserData === 1) {
+      res.status(200).json({
+        status: "success",
+        code: 200,
+        message: "User active successfully.",
+      });
+    } else {
+      res.status(400).json({
+        status: "error",
+        code: 400,
+        message: "Data not found.",
       });
     }
   } catch (error) {

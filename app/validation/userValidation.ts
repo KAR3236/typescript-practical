@@ -27,3 +27,7 @@ export const loginValidation = Joi.object().keys({
     .min(6)
     .empty(),
 });
+
+export const activeValidation = Joi.object().keys({
+  status: Joi.boolean().required().empty(),
+});

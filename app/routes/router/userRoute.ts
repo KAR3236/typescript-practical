@@ -4,11 +4,15 @@ import { validator } from "../../helper/validator";
 import {
   registrationValidation,
   loginValidation,
+  activeValidation,
 } from "../../validation/userValidation";
 import {
+  activeUserController,
   loginController,
   registrationController,
 } from "../../controller/userController";
+import { idValidation } from "../../validation/idValidation";
+import { authorization } from "../../helper/auth";
 
 export default (): any => {
   userRouter.post(
@@ -20,6 +24,13 @@ export default (): any => {
     "/api/user/login",
     validator.body(loginValidation),
     loginController
+  );
+  userRouter.put(
+    "/api/user/activeUser/:id",
+    authorization(["Admin"]),
+    validator.params(idValidation),
+    validator.body(activeValidation),
+    activeUserController
   );
 
   return userRouter;

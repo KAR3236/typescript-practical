@@ -6,6 +6,7 @@ export interface UserModelAttributes {
   password: string;
   dob: Date;
   role: "Admin" | "User";
+  status: boolean;
 }
 
 export interface BlogModelAttributes {
