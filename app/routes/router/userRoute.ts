@@ -26,9 +26,7 @@ export default (): any => {
     loginController
   );
   userRouter.put(
-    "/api/user/activeUser/:id",
-    authorization(["Admin"]),
-    validator.params(idValidation),
+    "/api/user/activeUser",
     validator.body(activeValidation),
     activeUserController
   );

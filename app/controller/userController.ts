@@ -111,22 +111,26 @@ export const activeUserController = async (
 ): Promise<any> => {
   try {
     const {
+      email,
       status,
     }: {
+      email: string;
       status: boolean;
     } = req.body;
 
     const [activeUserData]: number[] = await User.update({ status }, {
       where: {
-        id: req.params.id,
+        email,
       },
     });
 
     if (activeUserData === 1) {
-      res.status(200).json({
+      res.status(202).json({
         status: "success",
-        code: 200,
-        message: "User active successfully.",
+        code: 202,
+        message: status
+          ? "User active successfully."
+          : "User deactive successfully.",
       });
     } else {
       res.status(400).json({

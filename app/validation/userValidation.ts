@@ -29,5 +29,6 @@ export const loginValidation = Joi.object().keys({
 });
 
 export const activeValidation = Joi.object().keys({
+  email: Joi.string().required().empty().email(),
   status: Joi.boolean().required().empty(),
 });

@@ -107,24 +107,12 @@
         }
       }
     },
-    "/api/user/activeUser/{id}": {
+    "/api/user/activeUser": {
       "put": {
         "summary": "Admin can active user.",
-        "security": [
-          {
-            "CustomAuth": []
-          }
-        ],
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 1
-          },
           {
             "name": "body",
             "in": "body",
@@ -132,6 +120,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "kaushikrathod@gmail.com"
+                },
                 "status": {
                   "type": "boolean",
                   "example": "true"
