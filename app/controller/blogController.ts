@@ -83,7 +83,9 @@ export const viewBlog = async (req: Request, res: Response): Promise<any> => {
 
 export const listOfBlog = async (req: Request, res: Response): Promise<any> => {
   try {
-    const listOfBlogData: BlogModelInstance[] | null = await Blog.findAll();
+    const listOfBlogData: BlogModelInstance[] | null = await Blog.findAll({
+      order: [["id", "DESC"]],
+    });
     if (listOfBlogData.length > 0) {
       return res.status(202).json({
         status: "success",
@@ -109,7 +111,7 @@ export const listOfBlog = async (req: Request, res: Response): Promise<any> => {
 
 export const deleteBlog = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { id }: { id: number } = req.body;
+    const { id } = req.params;
     const updateBlogData: number = await Blog.destroy({
       where: {
         id,

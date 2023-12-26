@@ -457,7 +457,7 @@
         }
       }
     },
-    "/api/blog/deleteBlog": {
+    "/api/blog/deleteBlog/{id}": {
       "delete": {
         "summary": "User and Admin can delete one blog.",
         "security": [
@@ -469,21 +469,11 @@
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "id",
+            "in": "path",
             "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              },
-              "required": [
-                "id"
-              ]
-            }
+            "type": "integer",
+            "example": 1
           }
         ],
         "responses": {

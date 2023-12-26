@@ -42,9 +42,9 @@ export default (): any => {
     listOfBlog
   );
   blogRouter.delete(
-    "/api/blog/deleteBlog",
+    "/api/blog/deleteBlog/:id",
     authorization(["Admin", "User"]),
-    validator.body(idBlogValidation),
+    validator.params(idValidation),
     deleteBlog
   );
 
